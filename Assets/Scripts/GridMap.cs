@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class GridMap : MonoBehaviour {
 
@@ -10,6 +11,7 @@ public class GridMap : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
         SetupGrid(width, height);
+        FindTiles();
 	}
 	
 	// Update is called once per frame
@@ -20,6 +22,11 @@ public class GridMap : MonoBehaviour {
     public Vector3 GetGridPos(int x, int y)
     {
         return gridPositions[y][x];
+    }
+
+    public Tile GetTileAt(int x, int y)
+    {
+        return tiles[y][x];
     }
 
     //Set up the grid and positions of each space
@@ -69,13 +76,17 @@ public class GridMap : MonoBehaviour {
             tiles[i] = new Tile[width];
         }
 
-        for(int i = 0; i < height; i++)
-        {
-            for (int j = 0; j < width; j++)
-            {
+        //Debug.Log("# Child: " + transform.childCount);
 
+        for (int i = 0; i < transform.childCount; i++)
+        {
+            if (transform.GetChild(i).gameObject.activeInHierarchy)
+            {
+                tiles[(int)transform.GetChild(i).position.y + (height / 2)][(int)transform.GetChild(i).position.x + (width / 2)] = transform.GetChild(i).gameObject.GetComponent<Tile>();
             }
         }
+
+        
     }
 
     void OnDrawGizmos()

@@ -7,10 +7,11 @@ public class Item : MonoBehaviour {
     {
         Snorkel,
         SpikeBoots,
-        HeatArmor
+        HeatSuit
     }
 
     public Type type;
+    public GameObject icon;
 
 	// Use this for initialization
 	void Start () {
@@ -29,6 +30,10 @@ public class Item : MonoBehaviour {
             if (!other.GetComponent<Player>().HasItem(type))
             {
                 other.GetComponent<Player>().items.Add(this);
+                if (GameObject.Find("UI"))
+                {
+                    GameObject.Find("UI").GetComponent<UI>().InstantiateIcon(icon);
+                }
             }
             gameObject.SetActive(false);
         }

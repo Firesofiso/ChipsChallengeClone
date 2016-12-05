@@ -8,8 +8,10 @@ public class Tile : MonoBehaviour {
         Wall,
         Ground,
         Door,
-        Block,
-        Water
+        Water,
+        Fire,
+        Oil,
+        Ice
     }
 
     public bool isWalkable;

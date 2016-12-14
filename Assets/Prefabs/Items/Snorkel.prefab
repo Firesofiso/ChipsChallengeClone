@@ -22,7 +22,7 @@ GameObject:
   - 212: {fileID: 212000013038863274}
   - 114: {fileID: 114000012466788518}
   - 61: {fileID: 61000011857907274}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Snorkel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -35,9 +35,9 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000013151341006}
-  m_LocalRotation: {x: 0, y: 0, z: 0.38268343, w: 0.92387956}
-  m_LocalPosition: {x: 0, y: -13, z: 0}
-  m_LocalScale: {x: 0.75, y: 0.2, z: 1}
+  m_LocalRotation: {x: -0, y: -0, z: 0.38268343, w: 0.92387956}
+  m_LocalPosition: {x: -2, y: 2, z: 0}
+  m_LocalScale: {x: 0.75, y: 0.20000002, z: 1}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 45}
   m_Children: []
   m_Father: {fileID: 0}
@@ -96,8 +96,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingOrder: 1
+  m_SortingLayerID: -850126303
+  m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: e5d897a2fe6d3414386b3fce06a9fd9c, type: 3}
   m_Color: {r: 0.31617647, g: 0.31617647, b: 0.31617647, a: 1}
   m_FlipX: 0

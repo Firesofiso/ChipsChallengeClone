@@ -19,6 +19,11 @@ public class GridMap : MonoBehaviour {
 	
 	}
 
+    public Vector3 GetGridPos(Vector3 pos)
+    {
+        return gridPositions[(int)pos.y + (height / 2)][(int)pos.x + (width / 2)];
+    }
+
     public Vector3 GetGridPos(int x, int y)
     {
         return gridPositions[y][x];

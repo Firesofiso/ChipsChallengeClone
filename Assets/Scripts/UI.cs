@@ -25,7 +25,7 @@ public class UI : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
         lives.text = "" + gm.playerLives;
-        collected.fillAmount = p.curPower / p.maxPower;
+        collected.fillAmount = p.curPower / (float)p.maxPower;
         time.text = gm.gameTime.GetTime();
         yellowKey.gameObject.SetActive(p.HasKey(Key.Type.Yellow));
         redKey.gameObject.SetActive(p.HasKey(Key.Type.Red));

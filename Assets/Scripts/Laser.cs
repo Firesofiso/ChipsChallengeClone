@@ -18,8 +18,6 @@ public class Laser : MonoBehaviour {
         
         hit = Physics2D.Raycast(transform.position, dir);
         laserObject.transform.localScale = new Vector3(Vector3.Distance(transform.position, hit.transform.position)*5, laserObject.transform.localScale.y);
-        laserObject.transform.localPosition = new Vector3(Vector3.Distance(transform.position, hit.transform.position) * 5 / 2, 0);
-        Debug.Log("hit: " + hit.transform);
-        Debug.Log("Length: " + Vector3.Distance(transform.position, hit.transform.position));                                               
+        laserObject.transform.localPosition = new Vector3(Vector3.Distance(transform.position, hit.transform.position) * 5 / 2, 0);                                    
     }
 }

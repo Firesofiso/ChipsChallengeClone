@@ -21,18 +21,28 @@ public class FollowOutsideWall : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+        
+        //CLOCKWISE
         if (moveLeft)
         {
+            // Move down until a wall/obstacle is hit.
             if (facing == Vector3.down && transform.position == pos)
             {
-                if (x < grid.width - 1 && grid.GetTileAt(x + 1, y) && grid.GetTileAt(x + 1, y).isWalkable && y < grid.height - 1 && (!grid.GetTileAt(x + 1, y + 1) || !grid.GetTileAt(x + 1, y + 1).isWalkable))
+
+                // This if statement is for navigating the right turn around a convex corner when moving down.
+                if (x < grid.width - 1 && 
+                    grid.GetTileAt(x + 1, y) && 
+                    grid.GetTileAt(x + 1, y).isWalkable && 
+                    y < grid.height - 1 && 
+                    (!grid.GetTileAt(x + 1, y + 1) || !grid.GetTileAt(x + 1, y + 1).isWalkable || grid.GetTileAt(x + 1, y + 1).type != Tile.TileType.Ground) &&
+                    grid.GetTileAt(x + 1, y).type == Tile.TileType.Ground)
                 {
-                    //move right if up is no longer possible
+                    //Move right
                     x++;
                     pos += Vector3.right;
                     facing = Vector3.right;
                 }
-                else if (y > 0 && grid.GetTileAt(x, y - 1) && grid.GetTileAt(x, y - 1).isWalkable)
+                else if (y > 0 && grid.GetTileAt(x, y - 1) && grid.GetTileAt(x, y - 1).isWalkable && grid.GetTileAt(x, y - 1).type == Tile.TileType.Ground)
                 {
                     //Move down if possible.
                     y--;
@@ -40,19 +50,23 @@ public class FollowOutsideWall : MonoBehaviour {
                 }
                 else
                 {
+                    //Move left if nothing else is possible
                     facing = Vector3.left;
                 }
             }
             else if (facing == Vector3.left && transform.position == pos)
             {
-                if (y > 0 && grid.GetTileAt(x, y - 1) && grid.GetTileAt(x, y - 1).isWalkable)
+
+                // Start moving down again if a tile opens up.
+                // I.E. Left turn on a convex corner moving left.
+                if (y > 0 && grid.GetTileAt(x, y - 1) && grid.GetTileAt(x, y - 1).isWalkable && grid.GetTileAt(x, y - 1).type == Tile.TileType.Ground)
                 {
                     //Move down if possible.
                     y--;
                     pos += Vector3.down;
                     facing = Vector3.down;
                 }
-                else if(x > 0 && grid.GetTileAt(x - 1, y) && grid.GetTileAt(x - 1, y).isWalkable)
+                else if(x > 0 && grid.GetTileAt(x - 1, y) && grid.GetTileAt(x - 1, y).isWalkable && grid.GetTileAt(x - 1, y).type == Tile.TileType.Ground)
                 {
                     //Move left if down isn't possible.
                     x--;
@@ -60,17 +74,21 @@ public class FollowOutsideWall : MonoBehaviour {
                 }
                 else
                 {
+                    //Move up if we can't move left anymore.
                     facing = Vector3.up;
                 }
             }
             else if (facing == Vector3.up && transform.position == pos)
             {
-                if (x > 0 && grid.GetTileAt(x - 1, y) && grid.GetTileAt(x - 1, y).isWalkable)
+
+                //Might be able to see the pattern here.
+                //Convex corner case - Left turn moving up
+                if (x > 0 && grid.GetTileAt(x - 1, y) && grid.GetTileAt(x - 1, y).isWalkable && grid.GetTileAt(x - 1, y).type == Tile.TileType.Ground)
                 {
                     x--;
                     pos += Vector3.left;
                     facing = Vector3.left;
-                } else if (y < grid.height - 1 && grid.GetTileAt(x, y + 1) && grid.GetTileAt(x, y + 1).isWalkable)
+                } else if (y < grid.height - 1 && grid.GetTileAt(x, y + 1) && grid.GetTileAt(x, y + 1).isWalkable && grid.GetTileAt(x, y + 1).type == Tile.TileType.Ground)
                 {
                     //move up if left is no longer possible
                     y++;
@@ -83,14 +101,14 @@ public class FollowOutsideWall : MonoBehaviour {
             }
             else if (facing == Vector3.right && transform.position == pos)
             {
-                if (y < grid.height - 1 && grid.GetTileAt(x, y + 1) && grid.GetTileAt(x, y + 1).isWalkable)
+                if (y < grid.height - 1 && grid.GetTileAt(x, y + 1) && grid.GetTileAt(x, y + 1).isWalkable && grid.GetTileAt(x, y + 1).type == Tile.TileType.Ground)
                 {
                     //move up if left is no longer possible
                     y++;
                     pos += Vector3.up;
                     facing = Vector3.up;
                 }
-                else if (x < grid.width - 1 && grid.GetTileAt(x + 1, y) && grid.GetTileAt(x + 1, y).isWalkable)
+                else if (x < grid.width - 1 && grid.GetTileAt(x + 1, y) && grid.GetTileAt(x + 1, y).isWalkable && grid.GetTileAt(x + 1, y).type == Tile.TileType.Ground)
                 {
                     //move right if up is no longer possible
                     x++;
@@ -101,20 +119,27 @@ public class FollowOutsideWall : MonoBehaviour {
                     facing = Vector3.down;
                 }
             }
-        } else
+        }
+
+        //COUNTER-CLOCKWISE
+        else
         {
             // Move down whenever you can.
             if (facing == Vector3.down && transform.position == pos)
             {
                 //This is a special case of a convex corner
                 //Tile to the left is open and the one diagonally upleft is a wall/not there.
-                if (x > 0 && grid.GetTileAt(x - 1, y) && grid.GetTileAt(x - 1, y).isWalkable && y < grid.height - 1 && (!grid.GetTileAt(x - 1, y + 1) || !grid.GetTileAt(x - 1, y + 1).isWalkable))
+                if (x > 0 && grid.GetTileAt(x - 1, y) &&
+                    grid.GetTileAt(x - 1, y).isWalkable &&
+                    y < grid.height - 1 &&
+                    (!grid.GetTileAt(x - 1, y + 1) || !grid.GetTileAt(x - 1, y + 1).isWalkable || grid.GetTileAt(x - 1, y + 1).type != Tile.TileType.Ground) &&
+                    grid.GetTileAt(x - 1, y).type == Tile.TileType.Ground)
                 {
                     x--;
                     pos += Vector3.left;
                     facing = Vector3.left;
                 }
-                else if (y > 0 && grid.GetTileAt(x, y - 1) && grid.GetTileAt(x, y - 1).isWalkable)
+                else if (y > 0 && grid.GetTileAt(x, y - 1) && grid.GetTileAt(x, y - 1).isWalkable && grid.GetTileAt(x, y - 1).type == Tile.TileType.Ground)
                 {
                     //Move down if possible.
                     y--;
@@ -130,13 +155,13 @@ public class FollowOutsideWall : MonoBehaviour {
             else if (facing == Vector3.right && transform.position == pos)
             {
                 //If moving down becomes possible again revert back
-                if (y > 0 && grid.GetTileAt(x, y - 1) && grid.GetTileAt(x, y - 1).isWalkable)
+                if (y > 0 && grid.GetTileAt(x, y - 1) && grid.GetTileAt(x, y - 1).isWalkable && grid.GetTileAt(x, y - 1).type == Tile.TileType.Ground)
                 {
                     y--;
                     pos += Vector3.down;
                     facing = Vector3.down;
                 }
-                else if (x < grid.width - 1 && grid.GetTileAt(x + 1, y) && grid.GetTileAt(x + 1, y).isWalkable)
+                else if (x < grid.width - 1 && grid.GetTileAt(x + 1, y) && grid.GetTileAt(x + 1, y).isWalkable && grid.GetTileAt(x + 1, y).type == Tile.TileType.Ground)
                 {
                     //move right
                     x++;
@@ -152,14 +177,14 @@ public class FollowOutsideWall : MonoBehaviour {
             // If moving right is no longer possible move up
             else if (facing == Vector3.up && transform.position == pos)
             {
-                if (x < grid.width - 1 && grid.GetTileAt(x + 1, y) && grid.GetTileAt(x + 1, y).isWalkable)
+                if (x < grid.width - 1 && grid.GetTileAt(x + 1, y) && grid.GetTileAt(x + 1, y).isWalkable && grid.GetTileAt(x + 1, y).type == Tile.TileType.Ground)
                 {
                     //move right if up is no longer possible
                     x++;
                     pos += Vector3.right;
                     facing = Vector3.right;
                 }
-                else if (y < grid.height - 1 && grid.GetTileAt(x, y + 1) && grid.GetTileAt(x, y + 1).isWalkable)
+                else if (y < grid.height - 1 && grid.GetTileAt(x, y + 1) && grid.GetTileAt(x, y + 1).isWalkable && grid.GetTileAt(x, y + 1).type == Tile.TileType.Ground)
                 {
                     //move up if left is no longer possible
                     y++;
@@ -174,14 +199,14 @@ public class FollowOutsideWall : MonoBehaviour {
             // If moving up is no longer possible move left
             else if (facing == Vector3.left && transform.position == pos)
             {
-                if (y < grid.height - 1 && grid.GetTileAt(x, y + 1) && grid.GetTileAt(x, y + 1).isWalkable)
+                if (y < grid.height - 1 && grid.GetTileAt(x, y + 1) && grid.GetTileAt(x, y + 1).isWalkable && grid.GetTileAt(x, y + 1).type == Tile.TileType.Ground)
                 {
                     //move up if left is no longer possible
                     y++;
                     pos += Vector3.up;
                     facing = Vector3.up;
                 }
-                else if (x > 0 && grid.GetTileAt(x - 1, y) && grid.GetTileAt(x - 1, y).isWalkable)
+                else if (x > 0 && grid.GetTileAt(x - 1, y) && grid.GetTileAt(x - 1, y).isWalkable && grid.GetTileAt(x - 1, y).type == Tile.TileType.Ground)
                 {
                     //Move left if down isn't possible.
                     x--;

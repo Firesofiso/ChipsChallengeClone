@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class Tile : MonoBehaviour {
 
@@ -11,7 +12,8 @@ public class Tile : MonoBehaviour {
         Water,
         Fire,
         Oil,
-        Ice
+        Ice,
+        Mud
     }
 
     public bool isWalkable;
@@ -24,6 +26,6 @@ public class Tile : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-	
+	    
 	}
 }

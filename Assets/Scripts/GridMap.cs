@@ -8,10 +8,15 @@ public class GridMap : MonoBehaviour {
     private Vector3[][] gridPositions;
     private Tile[][] tiles;
 
-	// Use this for initialization
-	void Start () {
+    void Awake()
+    {
         SetupGrid(width, height);
         FindTiles();
+    }
+
+	// Use this for initialization
+	void Start () {
+        
 	}
 	
 	// Update is called once per frame
@@ -32,6 +37,11 @@ public class GridMap : MonoBehaviour {
     public Tile GetTileAt(int x, int y)
     {
         return tiles[y][x];
+    }
+
+    public Tile GetTileAt(Vector3 pos)
+    {
+        return tiles[(int)pos.y + (height / 2)][(int)pos.x + (width / 2)];
     }
 
     //Set up the grid and positions of each space

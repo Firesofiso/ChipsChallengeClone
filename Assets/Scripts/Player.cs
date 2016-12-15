@@ -12,8 +12,12 @@ public class Player : MonoBehaviour {
     public bool swimming = false;
     public bool sliding = false;
 
+    [HideInInspector]
     public List<Key> keys;
+    [HideInInspector]
     public List<Item> items;
+
+    public Sprite basicGround;
 
     [SerializeField]
     private int x, y; //X and Y Positions on the Grid;
@@ -21,8 +25,8 @@ public class Player : MonoBehaviour {
     private Vector3 pos;
     private Vector3 slideDir;
 
-	// Use this for initialization
-	void Start () {
+    // Use this for initialization
+    void Start () {
         grid = GameObject.Find("GridManager").GetComponent<GridMap>();
         x = (int)transform.position.x + grid.width / 2 + 1;
         y = (int)transform.position.y + grid.height / 2 + 1;
@@ -42,6 +46,12 @@ public class Player : MonoBehaviour {
             if (Input.GetButton("Right") && transform.position == pos && x < grid.width && grid.GetTileAt(x, y - 1))
             {
 
+                if (Physics2D.Raycast(transform.position, Vector3.right, 1) && Physics2D.Raycast(transform.position, Vector3.right, 1).transform.GetComponent<Pushable>())
+                {
+                    Pushable tempBlock = Physics2D.Raycast(transform.position, Vector3.right, 1).transform.GetComponent<Pushable>();
+                    tempBlock.Push(transform);
+                }
+
                 //This if takes care of all the checks and special cases. --This is the same for all directions, the only difference is the x and y pos
                 // The next block needs to be walkable.
                 // If the next block is a door, the player must have the respective key to walk there
@@ -50,6 +60,9 @@ public class Player : MonoBehaviour {
                     grid.GetTileAt(x, y - 1).type == Tile.TileType.Door && HasKey(grid.GetTileAt(x, y - 1).GetComponent<Door>().keyType) ||
                     grid.GetTileAt(x, y - 1).type == Tile.TileType.Water && HasItem(Item.Type.Snorkel) == true)
                 {
+
+                    
+
                     // Add a right direction to the position and increment x by 1 so when we move it picks the block to the right.
                     pos += Vector3.right;
                     x++;
@@ -67,10 +80,17 @@ public class Player : MonoBehaviour {
             }
             else if (Input.GetButton("Left") && transform.position == pos && x > 1 && grid.GetTileAt(x - 2, y - 1))
             {
+
+                if (Physics2D.Raycast(transform.position, Vector3.left, 1) && Physics2D.Raycast(transform.position, Vector3.left, 1).transform.GetComponent<Pushable>())
+                {
+                    Pushable tempBlock = Physics2D.Raycast(transform.position, Vector3.left, 1).transform.GetComponent<Pushable>();
+                    tempBlock.Push(transform);
+                }
                 if (grid.GetTileAt(x - 2, y - 1).isWalkable ||
                     grid.GetTileAt(x - 2, y - 1).type == Tile.TileType.Door && HasKey(grid.GetTileAt(x - 2, y - 1).GetComponent<Door>().keyType) ||
                     grid.GetTileAt(x - 2, y - 1).type == Tile.TileType.Water && HasItem(Item.Type.Snorkel) == true)
                 {
+
                     pos += Vector3.left;
                     x--;
                     if (grid.GetTileAt(x - 2, y - 1).type == Tile.TileType.Ice && HasItem(Item.Type.SpikeBoots) == false)
@@ -82,6 +102,12 @@ public class Player : MonoBehaviour {
             }
             else if (Input.GetButton("Up") && transform.position == pos && y < grid.height && grid.GetTileAt(x - 1, y))
             {
+
+                if (Physics2D.Raycast(transform.position, Vector3.up, 1) && Physics2D.Raycast(transform.position, Vector3.up, 1).transform.GetComponent<Pushable>())
+                {
+                    Pushable tempBlock = Physics2D.Raycast(transform.position, Vector3.up, 1).transform.GetComponent<Pushable>();
+                    tempBlock.Push(transform);
+                }
                 if (grid.GetTileAt(x - 1, y).isWalkable ||
                     grid.GetTileAt(x - 1, y).type == Tile.TileType.Door && HasKey(grid.GetTileAt(x - 1, y).GetComponent<Door>().keyType) ||
                     grid.GetTileAt(x - 1, y).type == Tile.TileType.Water && HasItem(Item.Type.Snorkel) == true)
@@ -97,10 +123,17 @@ public class Player : MonoBehaviour {
             }
             else if (Input.GetButton("Down") && transform.position == pos && y > 1 && grid.GetTileAt(x - 1, y - 2))
             {
+
+                if (Physics2D.Raycast(transform.position, Vector3.down, 1) && Physics2D.Raycast(transform.position, Vector3.down, 1).transform.GetComponent<Pushable>())
+                {
+                    Pushable tempBlock = Physics2D.Raycast(transform.position, Vector3.down, 1).transform.GetComponent<Pushable>();
+                    tempBlock.Push(transform);
+                }
                 if (grid.GetTileAt(x - 1, y - 2).isWalkable ||
                     grid.GetTileAt(x - 1, y - 2).type == Tile.TileType.Door && HasKey(grid.GetTileAt(x - 1, y - 2).GetComponent<Door>().keyType) ||
                     grid.GetTileAt(x - 1, y - 2).type == Tile.TileType.Water && HasItem(Item.Type.Snorkel) == true)
                 {
+
                     pos += Vector3.down;
                     y--;
                     if (grid.GetTileAt(x - 1, y - 2).type == Tile.TileType.Ice && HasItem(Item.Type.SpikeBoots) == false)
@@ -133,6 +166,11 @@ public class Player : MonoBehaviour {
             {
                 sliding = false;
             }
+        }
+        if (grid.GetTileAt(transform.position).type == Tile.TileType.Mud)
+        {
+            grid.GetTileAt(transform.position).GetComponent<SpriteRenderer>().sprite = basicGround;
+            grid.GetTileAt(transform.position).type = Tile.TileType.Ground;
         }
 
     }

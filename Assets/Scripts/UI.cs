@@ -12,13 +12,15 @@ public class UI : MonoBehaviour {
 
     public Transform itemHolder;
 
-    private GameManager gm;
-    private Player p;
+    public Player p; // Player for the level
+    public Timer t; // Timer for the level
+    public GameObject gameOverScreen;
+
     private int itemIconSpacing = 0;
+    private GameManager gm;
 
 	// Use this for initialization
 	void Start () {
-        p = GameObject.Find("Player").GetComponent<Player>();
         gm = GameObject.Find("GameManager").GetComponent<GameManager>();
 	}
 	
@@ -26,7 +28,7 @@ public class UI : MonoBehaviour {
 	void Update () {
         lives.text = "" + gm.playerLives;
         collected.fillAmount = p.curPower / (float)p.maxPower;
-        time.text = gm.gameTime.GetTime();
+        time.text = t.GetTime();
         yellowKey.gameObject.SetActive(p.HasKey(Key.Type.Yellow));
         redKey.gameObject.SetActive(p.HasKey(Key.Type.Red));
         greenKey.gameObject.SetActive(p.HasKey(Key.Type.Green));

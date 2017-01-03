@@ -1,36 +1,37 @@
 ﻿using UnityEngine;
-using UnityEngine.EventSystems;
-using UnityEngine.SceneManagement;
-using UnityEngine.UI;
 using System.Collections;
 
 public class Menu : MonoBehaviour {
 
-    public Button startHook;
+    private GameManager gm;
 
-    void OnEnable()
+	void Start()
     {
-        Debug.Log("OnEnable");
-        startHook.Select();
+        gm = GameObject.Find("GameManager").GetComponent<GameManager>();
     }
 
-	// Use this for initialization
-	void Start () {
-	
-	}
-	
-	// Update is called once per frame
-	void Update () {
-	
-	}
-
-    public void ChangeLevel(int i)
+    public void ChangeScene(int i)
     {
-        SceneManager.LoadScene(i);
+        gm.ChangeScene(i);
+    }
+
+    public void ReturnToTitle()
+    {
+        gm.ReturnToTitle();
+    }
+
+    public void StartOver()
+    {
+        gm.StartOver();
     }
 
     public void ExitGame()
     {
         Application.Quit();
+    }
+
+    public void ReloadScene()
+    {
+        gm.ReloadScene();
     }
 }

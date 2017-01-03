@@ -22,8 +22,9 @@ GameObject:
   - 212: {fileID: 212000012548253006}
   - 114: {fileID: 114000014042331284}
   - 114: {fileID: 114000012842703258}
+  - 61: {fileID: 61000011429519342}
   m_Layer: 0
-  m_Name: Door
+  m_Name: YellowDoor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -35,13 +36,27 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000013430851722}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1, y: 1, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -2, y: 3, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
+--- !u!61 &61000011429519342
+BoxCollider2D:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000013430851722}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1}
 --- !u!114 &114000012842703258
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -66,8 +81,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ed84cee0bfd3eb44997b749ec6902c9a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  open: {fileID: 0}
-  closed: {fileID: 0}
+  open_S: {fileID: 21300000, guid: b9bcdacf33775c849907b174dfe58263, type: 3}
+  closed_S: {fileID: 21300054, guid: d58c8cb95d5061144823cd31e99722e2, type: 3}
+  open: {r: 0, g: 0, b: 0, a: 0}
+  closed: {r: 0, g: 0, b: 0, a: 0}
+  requireKey: 1
+  keyType: 0
 --- !u!212 &212000012548253006
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -97,7 +116,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 88ec74b2e31f4a94e9aa9480d8fde959, type: 3}
+  m_Sprite: {fileID: 21300054, guid: d58c8cb95d5061144823cd31e99722e2, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0

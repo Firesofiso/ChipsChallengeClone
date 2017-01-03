@@ -49,6 +49,7 @@ public class Door : MonoBehaviour {
                 sRend.color = open;
             }
             t.isWalkable = true;
+            t.type = Tile.TileType.Ground;
         } else
         {
             if (closed_S)
@@ -60,6 +61,7 @@ public class Door : MonoBehaviour {
                 sRend.color = closed;
             }
             t.isWalkable = false;
+            t.type = Tile.TileType.Door;
         }
     }
 

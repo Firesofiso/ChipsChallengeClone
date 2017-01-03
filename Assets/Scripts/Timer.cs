@@ -3,11 +3,16 @@ using System.Collections;
 
 public class Timer : MonoBehaviour
 {
-    private int setTime = 0;
+    public int setTime = 0; 
     private int currentTime = 0;
-    private bool isCountDown = false;
+    public bool isCountDown = false;
 
     private Coroutine lastRoutine = null;
+
+    void Start()
+    {
+        StartTimer();
+    }
 
     public Timer()
     {
